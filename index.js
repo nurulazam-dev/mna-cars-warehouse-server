@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 const port = process.env.PORT || 5000;
 require('dotenv').config();
@@ -16,14 +16,24 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect()
-        const itemCollection = client.db('dbname').collection('collectionName');
+        const itemCollection = client.db('carsWarehouse').collection('item');
 
-        app.get('/collectionName',async(req,res)=>{
+        app.get('/item',async(req,res)=>{
             const query ={};
             const curser=itemCollection.find(query);
             const items =await curser.toArray();
             res.send(items)
-        })
+        });
+
+        //delete item
+        app.delete('/item/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await itemCollection.deleteOne(query);
+            res.send(result)
+        });
+
+        
     }
     finally {
 
