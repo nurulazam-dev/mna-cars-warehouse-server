@@ -25,6 +25,13 @@ async function run() {
             res.send(items)
         });
 
+        //add item
+        app.post('/item', async (req, res) => {
+            const addItem = req.body;
+            const result = await itemCollection.insertOne(addItem);
+            res.send(result)
+        });
+
         //delete item
         app.delete('/item/:id', async (req, res) => {
             const id = req.params.id;
@@ -33,7 +40,7 @@ async function run() {
             res.send(result)
         });
 
-        
+
     }
     finally {
 
