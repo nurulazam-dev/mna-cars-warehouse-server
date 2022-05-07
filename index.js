@@ -18,11 +18,20 @@ async function run() {
         await client.connect()
         const itemCollection = client.db('carsWarehouse').collection('item');
 
+        //item
         app.get('/item',async(req,res)=>{
             const query ={};
             const curser=itemCollection.find(query);
             const items =await curser.toArray();
             res.send(items)
+        });
+
+        //one item
+        app.get('/item/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const item = await itemCollection.findOne(query);
+            res.send(item)
         });
 
         //add item
