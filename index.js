@@ -20,11 +20,11 @@ app.use(express.json());
 connectDB();
 
 // routes
-app.use("/api/auth", authRoutes);
-app.use("/api/items", itemRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/items", itemRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/wishlist", wishlistRoutes);
 
 app.get("/", (req, res) => {
   res.send("MNA Car Warehouse - api running");
