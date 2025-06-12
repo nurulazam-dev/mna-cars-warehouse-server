@@ -22,3 +22,5 @@ yarn-debug.log*
 yarn-error.log*
 
 mainIndex.js
+primaryMainIndex1.js
+fileStructure.tex
