@@ -3,7 +3,7 @@ const cors = require("cors");
 const { connectDB } = require("./config/db");
 require("dotenv").config();
 
-// import or declare routes
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -16,6 +16,7 @@ app.use(express.json());
 connectDB();
 
 // routes
+app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.send("MNA Car Warehouse - api running");
