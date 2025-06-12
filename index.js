@@ -1,7 +1,9 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cors = require("cors");
+const { connectDB } = require("./config/db");
 require("dotenv").config();
+
+// import or declare routes
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -10,28 +12,15 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connection
-const uri = `${process.env.LOCAL_DATABASE}`;
-console.log(uri);
+// Database connection
+connectDB();
 
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1,
-});
-
-async function run() {
-  try {
-    await client.connect();
-  } finally {
-  }
-}
-run().catch(console.dir);
+// routes
 
 app.get("/", (req, res) => {
-  res.send("MNA Car Warehouse - API RUNNING");
+  res.send("MNA Car Warehouse - api running");
 });
 
 app.listen(port, () => {
-  console.log("Server running on port", port);
+  console.log(`Server running on port ${port}`);
 });
