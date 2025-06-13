@@ -2,7 +2,11 @@ const { ObjectId } = require("mongodb");
 const { getCollection } = require("../config/db");
 
 exports.createOrder = async (req, res) => {
-  const result = await getCollection("orders").insertOne(req.body);
+  const order = {
+    ...req.body,
+    createdAt: new Date(),
+  };
+  const result = await getCollection("orders").insertOne(order);
   res.send(result);
 };
 
@@ -28,7 +32,7 @@ exports.updateOrder = async (req, res) => {
 
 exports.deleteOrder = async (req, res) => {
   const result = await getCollection("orders").deleteOne({
-    _Id: ObjectId(req.params.id),
+    _id: ObjectId(req.params.id),
   });
   res.send(result);
 };
