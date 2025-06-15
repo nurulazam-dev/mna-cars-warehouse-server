@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-function verifyToken(req, res, next) {
+export const verifyToken = async (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json({ message: "Access Denied" });
 
@@ -9,13 +9,11 @@ function verifyToken(req, res, next) {
     req.user = decoded;
     next();
   });
-}
+};
 
-const verifyAdmin = (req, res, next) => {
+export const verifyAdmin = (req, res, next) => {
   if (req.user.role !== "admin") {
     return res.status(403).send("Forbidden, admin only");
   }
   next();
 };
-
-module.exports = { verifyToken, verifyAdmin };

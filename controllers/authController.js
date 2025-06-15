@@ -1,8 +1,8 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { getCollection } = require("../config/db");
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { getCollection } from "../config/db.js";
 
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   const usersCollection = getCollection("users");
   const { email, password, name } = req.body;
 
@@ -21,7 +21,7 @@ exports.register = async (req, res) => {
   res.send(result);
 };
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   const usersCollection = getCollection("users");
   const { email, password } = req.body;
 

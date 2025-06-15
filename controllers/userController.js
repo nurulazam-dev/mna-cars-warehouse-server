@@ -1,12 +1,12 @@
-const { ObjectId } = require("mongodb");
-const { getCollection } = require("../config/db");
+import { ObjectId } from "mongodb";
+import { getCollection } from "../config/db.js";
 
-exports.getUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
   const users = await getCollection("users").find({}).toArray();
   res.send(users);
 };
 
-exports.updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   const result = await getCollection("users").updateOne(
     { _id: ObjectId(req.params.id) },
     { $set: req.body }
@@ -14,14 +14,14 @@ exports.updateUser = async (req, res) => {
   res.send(result);
 };
 
-exports.deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   const result = await getCollection("users").deleteOne({
     _id: ObjectId(req.params.id),
   });
   res.send(result);
 };
 
-exports.updateSettings = async (req, res) => {
+export const updateSettings = async (req, res) => {
   const result = await getCollection("users").updateOne(
     { email: req.user.email },
     { $set: req.body }

@@ -1,24 +1,30 @@
-const express = require("express");
-const cors = require("cors");
-const { connectDB } = require("./config/db");
-require("dotenv").config();
+import express, { json } from "express";
+import cors from "cors";
+import { config } from "dotenv";
+import { connectDB } from "./config/db.js";
 
-const authRoutes = require("./routes/authRoutes");
-const itemRoutes = require("./routes/itemRoutes");
-const userRoutes = require("./routes/userRoutes");
-const orderRoutes = require("./routes/orderRoutes");
-const wishlistRoutes = require("./routes/wishlistRoutes");
-const adminRoutes = require("./routes/adminRoutes");
+import authRoutes from "./routes/auth.js";
+import itemRoutes from "./routes/item.js";
+import userRoutes from "./routes/user.js";
+import orderRoutes from "./routes/order.js";
+import wishlistRoutes from "./routes/wishlist.js";
+import adminRoutes from "./routes/admin.js";
+
+config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+const corsOption = {
+  origin: true,
+};
+
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors(corsOption));
+app.use(json());
 
 // Database connection
-connectDB();
+// connectDB();
 
 // routes
 app.use("/api/v1/auth", authRoutes);
@@ -26,12 +32,13 @@ app.use("/api/v1/items", itemRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/wishlist", wishlistRoutes);
-app.use("/admin", adminRoutes);
+app.use("/api/v1/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("MNA Car Warehouse - api running");
 });
 
 app.listen(port, () => {
+  connectDB();
   console.log(`Server running on port ${port}`);
 });

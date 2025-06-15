@@ -10,6 +10,7 @@
   "name": "mna-cars-warehouse-server",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
     "start-dev": "nodemon index.js",

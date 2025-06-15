@@ -1,8 +1,8 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+import { MongoClient, ServerApiVersion } from "mongodb";
 
 let client;
 
-async function connectDB() {
+export const connectDB = async () => {
   const uri = process.env.LOCAL_DATABASE;
 
   client = new MongoClient(uri, {
@@ -13,10 +13,8 @@ async function connectDB() {
 
   await client.connect();
   console.log("MongoDB connected");
-}
+};
 
-function getCollection(collectionName) {
+export const getCollection = (collectionName) => {
   return client.db("carsWarehouse").collection(collectionName);
-}
-
-module.exports = { connectDB, getCollection };
+};

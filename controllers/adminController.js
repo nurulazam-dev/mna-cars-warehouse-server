@@ -1,6 +1,6 @@
-const { ObjectId } = require("mongodb");
+import { ObjectId } from "mongodb";
 
-const getAdminStats = async (req, res) => {
+export const getAdminStats = async (req, res) => {
   try {
     const db = req.db;
     const usersCollection = db.collection("users");
@@ -20,5 +20,3 @@ const getAdminStats = async (req, res) => {
     res.status(500).send("Something went wrong");
   }
 };
-
-module.exports = { getAdminStats };
