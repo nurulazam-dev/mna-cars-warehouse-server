@@ -8,8 +8,14 @@ export const getUsers = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  const result = await getCollection("users").updateOne(
-    { _id: ObjectId(req.params.id) },
+  const { id } = req.params;
+  const usersCollection = getCollection("users");
+
+  const user = await usersCollection.findOne({ _id: new ObjectId(id) });
+  if (!user) return res.status(404).json({ message: "User not found." });
+
+  const result = await usersCollection.updateOne(
+    { _id: new ObjectId(id) },
     { $set: req.body }
   );
   res.send(result);
@@ -22,6 +28,7 @@ export const deleteUser = async (req, res) => {
   res.send(result);
 };
 
+// updateSettings controller for update password
 export const updateSettings = async (req, res) => {
   const { id } = req.params;
   const { newPassword } = req.body;
