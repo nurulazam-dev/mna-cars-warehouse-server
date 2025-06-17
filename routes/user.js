@@ -10,8 +10,8 @@ import { checkRole } from "../middlewares/roleMiddleware.js";
 import { verifyToken } from "../middlewares/authMiddleware.js";
 
 router.get("/", verifyToken, checkRole("admin"), getUsers);
-router.put("/:id", verifyToken, checkRole("admin"), updateUser);
+router.put("/:id", verifyToken, updateUser);
 router.delete("/:id", verifyToken, checkRole("admin"), deleteUser);
-router.put("/settings", verifyToken, updateSettings);
+router.put("/:id/settings", verifyToken, updateSettings);
 
 export default router;
