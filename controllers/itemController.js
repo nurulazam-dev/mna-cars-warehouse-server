@@ -19,11 +19,23 @@ export const createItem = async (req, res) => {
 };
 
 export const updateItem = async (req, res) => {
-  const result = await getCollection("items").updateOne(
-    { _id: ObjectId(req.params.id) },
-    { $set: req.body }
-  );
-  res.send(result);
+  try {
+    const { _id, ...updateData } = req.body;
+
+    const result = await getCollection("items").updateOne(
+      { _id: new ObjectId(req.params.id) },
+      { $set: updateData }
+    );
+
+    if (result.modifiedCount === 1) {
+      res.json({ message: "Item updated successfully." });
+    } else {
+      res.status(400).json({ message: "No changes made or item not found." });
+    }
+  } catch (error) {
+    console.error("Update item error:", error);
+    res.status(500).json({ message: "Error occurred while updating" });
+  }
 };
 
 export const deleteItem = async (req, res) => {
