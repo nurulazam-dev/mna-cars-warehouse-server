@@ -42,3 +42,24 @@ export const login = async (req, res) => {
     user: { id: user._id, email: user.email, role: user.role, name: user.name },
   });
 };
+
+export const forgotPassword = async (req, res) => {
+  const usersCollection = getCollection("users");
+  const { email } = req.body;
+  const user = await usersCollection.findOne({ email });
+
+  if (!user)
+    return res
+      .status(200)
+      .json({ message: "If user exists, an email will be sent." });
+
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_TOKEN, {
+    expiresIn: "1h",
+  });
+
+  const resetLink = `http://localhost:5173/reset-password/${token}`;
+
+  // Send email logic here (using nodemailer, etc.)
+
+  res.status(200).json({ message: "Password reset link sent." });
+};
