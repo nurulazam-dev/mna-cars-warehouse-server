@@ -57,9 +57,38 @@ export const forgotPassword = async (req, res) => {
     expiresIn: "1h",
   });
 
-  const resetLink = `http://localhost:5173/reset-password/${token}`;
+  const resetLink = `http://localhost:3000/reset-password/${token}`;
 
-  // Send email logic here (using nodemailer, etc.)
+  await transporter.sendMail({
+    from: "noreply@yourdomain.com",
+    to: email,
+    subject: "Reset your password",
+    html: `<p>Click here to reset your password: <a href="${resetLink}">${resetLink}</a></p>`,
+  });
 
-  res.status(200).json({ message: "Password reset link sent." });
+  res.status(200).json({ message: "Reset email sent" });
+};
+
+export const resetPassword = async (req, res) => {
+  const usersCollection = getCollection("users");
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
+    const userId = decoded.id;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const result = await usersCollection.updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: { password: hashedPassword } }
+    );
+
+    if (result.modifiedCount === 1) {
+      res.json({ message: "Password reset successful" });
+    } else {
+      res.status(400).json({ message: "Failed to reset password" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Invalid or expired token" });
+  }
 };
