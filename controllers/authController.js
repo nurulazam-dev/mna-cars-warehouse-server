@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { getCollection } from "../config/db.js";
+import transporter from "../utils/email.js";
 
 export const register = async (req, res) => {
   const usersCollection = getCollection("users");
