@@ -2,8 +2,26 @@ import { ObjectId } from "mongodb";
 import { getCollection } from "../config/db.js";
 
 export const addWishlist = async (req, res) => {
-  const result = await getCollection("wishlists").insertOne(req.body);
-  res.send(result);
+  try {
+    const wishlist = await getCollection("wishlist");
+    const { email, title, productId } = req.body;
+
+    const exists = await wishlist.findOne({ email, productId });
+    if (exists) {
+      return res.status(400).json({ message: "Item already in wishlist." });
+    }
+
+    const result = await wishlist.insertOne({ email, title, productId });
+
+    if (result.insertedId) {
+      return res.status(201).json({ message: "Added to wishlist." });
+    } else {
+      return res.status(500).json({ message: "Failed to add to wishlist." });
+    }
+  } catch (error) {
+    console.error("Wishlist Error:", error);
+    res.status(500).json({ message: "Server error." });
+  }
 };
 
 export const getWishlist = async (req, res) => {
