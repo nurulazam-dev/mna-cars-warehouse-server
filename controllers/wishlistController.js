@@ -4,14 +4,23 @@ import { getCollection } from "../config/db.js";
 export const addWishlist = async (req, res) => {
   try {
     const wishlists = await getCollection("wishlists");
-    const { email, title, img, productId } = req.body;
+    const { email, title, brand, supplierEmail, price, img, productId } =
+      req.body;
 
     const exists = await wishlists.findOne({ email, productId });
     if (exists) {
       return res.status(400).json({ message: "Item already in wishlist." });
     }
 
-    const result = await wishlists.insertOne({ email, title, img, productId });
+    const result = await wishlists.insertOne({
+      email,
+      title,
+      brand,
+      supplierEmail,
+      price,
+      img,
+      productId,
+    });
 
     if (result.insertedId) {
       return res.status(201).json({ message: "Added to wishlist." });
