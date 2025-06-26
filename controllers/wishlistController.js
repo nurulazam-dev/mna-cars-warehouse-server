@@ -46,3 +46,9 @@ export const deleteWishlist = async (req, res) => {
   });
   res.send(result);
 };
+
+export const clearWishlistHandler = async (req, res) => {
+  const wishlist = await getCollection("wishlists");
+  const result = await wishlist.deleteMany({ email: req.params.email });
+  res.send({ message: "Wishlist cleared.", deletedCount: result.deletedCount });
+};

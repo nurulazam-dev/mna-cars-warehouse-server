@@ -9,7 +9,7 @@ import {
   deleteOrder,
 } from "../controllers/orderController.js";
 
-router.post("/", verifyToken, createOrder);
+router.post("/checkout-session", verifyToken, createOrder);
 router.get("/", verifyToken, getOrders);
 router.get("/:email", verifyToken, getOrdersByEmail);
 router.put("/:id", verifyToken, verifyAdmin, updateOrder);
