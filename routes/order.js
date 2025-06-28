@@ -11,8 +11,8 @@ import {
 
 router.post("/checkout-session", verifyToken, createOrder);
 router.get("/", verifyToken, getOrders);
+router.put("/:id", verifyToken, updateOrder);
 router.get("/:email", verifyToken, getOrdersByEmail);
-router.put("/:id", verifyToken, verifyAdmin, updateOrder);
-router.delete("/:id", verifyToken, verifyAdmin, deleteOrder);
+router.delete("/:id", verifyToken, deleteOrder);
 
 export default router;
