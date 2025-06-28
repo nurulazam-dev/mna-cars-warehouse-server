@@ -57,7 +57,7 @@ export const createOrder = async (req, res) => {
         brand: item.brand,
         supplierEmail: item.supplierEmail || "",
       })),
-      status: "pending",
+      status: "Pending",
       paymentSessionId: session.id,
       createdAt: new Date(),
     });
