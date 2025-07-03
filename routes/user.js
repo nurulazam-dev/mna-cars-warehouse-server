@@ -6,12 +6,11 @@ import {
   deleteUser,
   updateSettings,
 } from "../controllers/userController.js";
-import { checkRole } from "../middlewares/roleMiddleware.js";
-import { verifyToken } from "../middlewares/authMiddleware.js";
+import { verifyAdmin, verifyToken } from "../middlewares/authMiddleware.js";
 
-router.get("/", verifyToken, checkRole("admin"), getUsers);
-router.put("/:id", verifyToken, checkRole("admin"), updateUser);
-router.delete("/:id", verifyToken, checkRole("admin"), deleteUser);
+router.get("/", verifyToken, verifyAdmin, getUsers);
+router.put("/:id", verifyToken, updateUser);
+router.delete("/:id", verifyToken, verifyAdmin, deleteUser);
 router.put("/:id/settings", verifyToken, updateSettings);
 
 export default router;
