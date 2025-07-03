@@ -17,6 +17,7 @@ export const registerUser = async (req, res) => {
     password: hashedPassword,
     name,
     role: "user",
+    createdAt: new Date(),
   });
 
   res.send(result);
