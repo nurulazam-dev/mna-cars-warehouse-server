@@ -90,11 +90,37 @@ export const getOrdersByEmail = async (req, res) => {
 };
 
 export const updateOrder = async (req, res) => {
-  const result = await getCollection("orders").updateOne(
-    { _id: ObjectId(req.params.id) },
-    { $set: req.body }
-  );
-  res.send(result);
+  try {
+    const ordersCollection = getCollection("orders");
+    const itemsCollection = getCollection("items");
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const order = await ordersCollection.findOne({ _id: new ObjectId(id) });
+    if (!order) return res.status(404).json({ message: "Order not found." });
+
+    if (
+      status &&
+      status.toLowerCase() === "completed" &&
+      order.status.toLowerCase() !== "completed"
+    ) {
+      for (const item of order.items) {
+        await itemsCollection.updateOne(
+          { _id: new ObjectId(item.productId) },
+          { $inc: { quantity: -1 * (item.quantity || 1) } }
+        );
+      }
+    }
+
+    await ordersCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { status } }
+    );
+
+    res.json({ success: true, message: "Order updated." });
+  } catch (error) {
+    res.status(500).json({ message: "Server error." });
+  }
 };
 
 export const deleteOrder = async (req, res) => {
