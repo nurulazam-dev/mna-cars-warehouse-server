@@ -24,25 +24,44 @@ export const registerUser = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const usersCollection = getCollection("users");
-  const { email, password } = req.body;
+  try {
+    const usersCollection = getCollection("users");
+    const { email, password } = req.body;
 
-  const user = await usersCollection.findOne({ email });
-  if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required." });
+    }
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    const user = await usersCollection.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials." });
+    }
 
-  const token = jwt.sign(
-    { id: user._id, email: user.email, role: user.role },
-    process.env.JWT_SECRET_TOKEN,
-    { expiresIn: "7d" }
-  );
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid credentials." });
+    }
 
-  res.send({
-    token,
-    user: { id: user._id, email: user.email, role: user.role, name: user.name },
-  });
+    const token = jwt.sign(
+      { id: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET_TOKEN,
+      { expiresIn: "1d" }
+    );
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        name: user.name,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
 };
 
 export const forgotPassword = async (req, res) => {
