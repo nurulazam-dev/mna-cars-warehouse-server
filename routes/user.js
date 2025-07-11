@@ -8,7 +8,7 @@ import {
 } from "../controllers/userController.js";
 import { verifyAdmin, verifyToken } from "../middlewares/authMiddleware.js";
 
-router.get("/", verifyToken, verifyAdmin, getUsers);
+router.get("/", verifyToken, getUsers);
 router.put("/:id", verifyToken, updateUser);
 router.delete("/:id", verifyToken, verifyAdmin, deleteUser);
 router.put("/:id/settings", verifyToken, updateSettings);
