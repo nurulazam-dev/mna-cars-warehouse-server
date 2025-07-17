@@ -15,20 +15,22 @@ config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-const corsOption = {
+/* const corsOption = {
   origin: true,
-};
+}; */
 
-/* app.use(cors({
-  origin: ['http://localhost:3000', 'https://mna-cars-warehouse.web.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://mna-cars-warehouse.web.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
-app.use(cors()); */
+app.use(cors());
 
 // Middleware
-app.use(cors(corsOption));
+// app.use(cors(corsOption));
 app.use(json());
 
 // Database connection
