@@ -3,7 +3,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 let client;
 
 export const connectDB = async () => {
-  const uri = process.env.LOCAL_DATABASE;
+  const uri = process.env.DATABASE_URL;
 
   client = new MongoClient(uri, {
     useNewUrlParser: true,
