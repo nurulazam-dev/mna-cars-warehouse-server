@@ -27,7 +27,7 @@ app.use(
   })
 );
 
-app.use(cors());
+// app.use(cors());
 
 // Middleware
 // app.use(cors(corsOption));
