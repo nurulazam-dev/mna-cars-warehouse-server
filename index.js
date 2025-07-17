@@ -19,15 +19,15 @@ const port = process.env.PORT || 5000;
   origin: true,
 }; */
 
-app.use(
+/* app.use(
   cors({
     origin: ["http://localhost:3000", "https://mna-cars-warehouse.web.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
-);
+); */
 
-// app.use(cors());
+app.use(cors());
 
 // Middleware
 // app.use(cors(corsOption));
