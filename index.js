@@ -15,9 +15,9 @@ config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-/* const corsOption = {
+const corsOption = {
   origin: true,
-}; */
+};
 
 /* app.use(
   cors({
@@ -27,10 +27,10 @@ const port = process.env.PORT || 5000;
   })
 ); */
 
-app.use(cors());
+// app.use(cors());
 
 // Middleware
-// app.use(cors(corsOption));
+app.use(cors(corsOption));
 app.use(json());
 
 // Database connection
