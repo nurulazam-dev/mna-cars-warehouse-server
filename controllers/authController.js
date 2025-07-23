@@ -78,7 +78,7 @@ export const forgotPassword = async (req, res) => {
     expiresIn: "1h",
   });
 
-  const resetLink = `http://localhost:3000/reset-password/${token}`;
+  const resetLink = `${process.env.CLIENT_SITE_URL}/reset-password/${token}`;
 
   await transporter.sendMail({
     from: "noreply@yourdomain.com",

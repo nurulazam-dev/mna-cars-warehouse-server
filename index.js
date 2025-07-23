@@ -19,16 +19,6 @@ const corsOption = {
   origin: true,
 };
 
-/* app.use(
-  cors({
-    origin: ["http://localhost:3000", "https://mna-cars-warehouse.web.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-); */
-
-// app.use(cors());
-
 // Middleware
 app.use(cors(corsOption));
 app.use(json());
